@@ -1,12 +1,9 @@
-const Auth = require("../service/auth.service");
-const express = require("express");
-const router = express.Router();
- 
+const Auth = require("../auth/auth.service");
 
 
-
-router.post("/api/register", async (req, res)=>
+exports.register = async (req, res) =>
 {
+    console.log("running")
      const { name, email, password } = req.body;
      const data = { name, email, password };
    
@@ -19,10 +16,8 @@ router.post("/api/register", async (req, res)=>
          }
 
 }
-);
 
-
-router.post("/api/login", async (req, res)=>
+exports.login = async (req, res) =>
 {
     try {
         console.log("taking input");
@@ -37,7 +32,4 @@ router.post("/api/login", async (req, res)=>
     } catch (error) {
         return res.status(500).json("SERVER ERROR");
     }
-    
-})
-
-module.exports = router;
+}

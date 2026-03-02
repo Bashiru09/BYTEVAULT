@@ -1,13 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const FileService = require("../service/file.service")
-const multer = require('multer');
-const {protect} = require("../middleware/protected.middleware");
-const upload = multer(); 
+const FileService = require("../file/file.service");
 const path = require('path');
 
-
-router.post('/api/upload',protect,upload.single('file'), async (req, res) => {
+exports.uploadFile = async (req, res) => {
   try {
     console.log("running");
     const ownerId = req.user.userId; 
@@ -18,10 +12,10 @@ router.post('/api/upload',protect,upload.single('file'), async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+}
 
 
-router.get('/api/:fileId', protect , async (req, res) => {
+exports.download = async (req, res) => {
   try {
     const ownerId = req.user.userId;
     const fileId = req.params.fileId;
@@ -32,6 +26,4 @@ router.get('/api/:fileId', protect , async (req, res) => {
   } catch (err) {
     res.status(403).json({ error: err.message });
   }
-});
-
-module.exports = router;
+}

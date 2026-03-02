@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const prisma = require("../utils/prisma")
+const prisma = require("../../config/prisma")
 
 const UPLOAD_DIR = path.join(__dirname, '../../uploads'); 
 if (!fs.existsSync(UPLOAD_DIR)) {
