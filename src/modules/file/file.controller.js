@@ -3,10 +3,9 @@ const path = require('path');
 
 exports.uploadFile = async (req, res) => {
   try {
-    console.log("running");
     const ownerId = req.user.userId; 
-    console.log({id: ownerId});
     const file = req.file;
+    console.log(file);
     const savedFile = await FileService.uploadFile({ ownerId, file });
     res.status(200).json({ file: savedFile });
   } catch (err) {

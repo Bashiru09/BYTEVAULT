@@ -1,18 +1,11 @@
-const fs = require('fs');
-const path = require('path');
 const crypto = require('crypto');
-const prisma = require("../../config/prisma")
-
-const UPLOAD_DIR = path.join(__dirname, '../../uploads'); 
-if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-}
+const prisma = require("../../config/prisma");
+const cloudinary = require("../../config/cloudinary");
 
 class FileService {
   static allowedMimeTypes = ['image/png', 'image/jpeg', 'application/pdf'];
-  static maxFileSize = 10 * 1024 * 1024; // 10 MB
+  static maxFileSize = 10 * 1024 * 1024; 
 
-  
   static validateFile(file) {
     if (!this.allowedMimeTypes.includes(file.mimetype)) {
       throw new Error('Invalid file type');
@@ -22,44 +15,53 @@ class FileService {
     }
   }
 
-  
-  static generateStoredName(originalName) {
-    const ext = path.extname(originalName);
-    const hash = crypto.randomBytes(16).toString('hex');
-    return `${Date.now()}-${hash}${ext}`;
-  }
 
   
-  static async storeFile(file) {
-    const storedName = this.generateStoredName(file.originalname);
-    const filePath = path.join(UPLOAD_DIR, storedName);
+  static async uploadToCloudinary(file) {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "bytevault",
+        resource_type: "auto"
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      }
+    );
 
-    await fs.promises.writeFile(filePath, file.buffer);
-
-    return { storedName, path: filePath };
-  }
-
-  
-  static async saveFileMetadata({ ownerId, file, storedName }) {
+    stream.end(file.buffer); // 🔥 VERY IMPORTANT
+  });
+}
+  // 🔥 UPDATED: Save metadata (no local storage)
+  static async saveFileMetadata({ ownerId, file, uploadResult }) {
     return prisma.file.create({
       data: {
-        owner_id: ownerId,
-        original_name: file.originalname,
-        stored_name: storedName,
-        mime_type: file.mimetype,
+        filename: uploadResult.public_id,      // Cloudinary ID
+        originalName: file.originalname,
+        mimetype: file.mimetype,
         size: file.size,
-        storage_type: 'LOCAL',
-        path: `uploads/${storedName}`,
+        path: uploadResult.secure_url,         // URL instead of local path
+        url: uploadResult.secure_url,
+
+        userId: ownerId
       },
     });
   }
 
-  
+  // 🔥 MAIN FLOW UPDATED
   static async uploadFile({ ownerId, file }) {
     this.validateFile(file);
 
-    const { storedName, path } = await this.storeFile(file);
-    const metadata = await this.saveFileMetadata({ ownerId, file, storedName });
+    // 1. Upload to Cloudinary
+    const uploadResult = await this.uploadToCloudinary(file);
+
+    // 2. Save metadata
+    const metadata = await this.saveFileMetadata({
+      ownerId,
+      file,
+      uploadResult
+    });
 
     return metadata;
   }
@@ -71,7 +73,7 @@ class FileService {
     });
 
     if (!file) throw new Error('File not found');
-    if (file.owner_id !== ownerId) throw new Error('Access denied');
+    if (file.userId !== ownerId) throw new Error('Access denied');
 
     return file;
   }
