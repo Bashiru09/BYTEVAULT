@@ -3,7 +3,7 @@ const Auth = require("../auth/auth.service");
 
 exports.register = async (req, res) =>
 {
-    console.log("running")
+    
      const { name, email, password } = req.body;
      const data = { name, email, password };
    
@@ -20,7 +20,7 @@ exports.register = async (req, res) =>
 exports.login = async (req, res) =>
 {
     try {
-        console.log("taking input");
+        
         const {email, password} = req.body;
         console.log(email, password);
         const login = await Auth.login({email, password});

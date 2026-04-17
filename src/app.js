@@ -1,13 +1,20 @@
 const express = require("express");
-const routes = express();
-const authRoute = require("./modules/auth/auth.routes");
-const fileRoute = require("./modules/file/file.routes");
-routes.use(express.json());
+const app = express();
+const authRoutes = require("./modules/auth/auth.routes");
+const fileRoutes = require("./modules/file/file.routes");
+app.use(express.json());
+
+
+app.use((req, res, next) => {
+  console.log("Incoming request:", req.method, req.url);
+  next();
+});
 
 
 
-routes.use("/auth/v1", authRoute);
-routes.use("/file/v1", fileRoute);
+app.use("/auth/v1", authRoutes);
+app.use("api/v1/files", fileRoutes);
 
 
-module.exports = routes;
+
+module.exports = app;

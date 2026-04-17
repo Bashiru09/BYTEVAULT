@@ -33,7 +33,7 @@ class FileService {
     stream.end(file.buffer); // 🔥 VERY IMPORTANT
   });
 }
-  // 🔥 UPDATED: Save metadata (no local storage)
+  
   static async saveFileMetadata({ ownerId, file, uploadResult }) {
     return prisma.file.create({
       data: {
@@ -43,20 +43,19 @@ class FileService {
         size: file.size,
         path: uploadResult.secure_url,         // URL instead of local path
         url: uploadResult.secure_url,
-
         userId: ownerId
       },
     });
   }
 
-  // 🔥 MAIN FLOW UPDATED
+  
   static async uploadFile({ ownerId, file }) {
     this.validateFile(file);
 
-    // 1. Upload to Cloudinary
+
     const uploadResult = await this.uploadToCloudinary(file);
 
-    // 2. Save metadata
+    
     const metadata = await this.saveFileMetadata({
       ownerId,
       file,
@@ -77,6 +76,20 @@ class FileService {
 
     return file;
   }
+
+
+
+  static generateSignedUrl(publicId) {
+  return cloudinary.url(publicId, {
+    sign_url: true,
+    secure: true
+  });
 }
+
+
+}
+
+
+
 
 module.exports = FileService;

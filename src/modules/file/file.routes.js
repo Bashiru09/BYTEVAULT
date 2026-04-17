@@ -9,8 +9,6 @@ const {uploadFile , download} = require("../file/file.controller");
 
 
 router.post('/api/upload',protect,upload.single('file'), uploadFile );
-
-
-router.get('/api/:fileId', protect , download);
+router.get('/:fileId/download', protect , download);
 
 module.exports = router;
