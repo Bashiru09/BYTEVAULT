@@ -29,6 +29,16 @@ ByteVault is designed as a backend service that mimics core functionality of clo
 
 ---
 
+![Swagger](./uploads/swagger.png)
+![Upload](./uploads/upload.png)
+![Database](./uploads/database.png)
+![Cloudinary](./uploads/Cloudinary.png)
+![Download](./uploads/download.png)
+
+
+
+
+
 ## 🏗️ Tech Stack
 
 * **Backend:** Node.js, Express
