@@ -33,14 +33,14 @@ ByteVault is designed as a backend service that mimics core functionality of clo
 
 ### 🔹 API Documentation (Swagger)
 <p align="center">
-  <img src="./uploads/swagger.png" width="700"/>
+  <img src="./screenshots/swagger.png" width="700"/>
 </p>
 
 ---
 
 ### 🔹 File Upload Response
 <p align="center">
-  <img src="./uploads/upload.png" width="700"/>
+  <img src="./screenshots/upload.png" width="700"/>
 </p>
 
 ---
@@ -54,14 +54,14 @@ ByteVault is designed as a backend service that mimics core functionality of clo
 
 ### 🔹 Cloudinary Storage
 <p align="center">
-  <img src="./uploads/Cloudinary.png" width="700"/>
+  <img src="./screenshots/Cloudinary.png" width="700"/>
 </p>
 
 ---
 
 ### 🔹 File Download
 <p align="center">
-  <img src="./uploads/download.png" width="700"/>
+  <img src="./screenshots/download.png" width="700"/>
 </p>
 
 
