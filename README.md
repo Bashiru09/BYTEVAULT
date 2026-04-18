@@ -29,11 +29,40 @@ ByteVault is designed as a backend service that mimics core functionality of clo
 
 ---
 
-![Swagger](./uploads/swagger.png)
-![Upload](./uploads/upload.png)
-![Database](./uploads/database.png)
-![Cloudinary](./uploads/Cloudinary.png)
-![Download](./uploads/download.png)
+## 📸 Screenshots
+
+### 🔹 API Documentation (Swagger)
+<p align="center">
+  <img src="./uploads/swagger.png" width="700"/>
+</p>
+
+---
+
+### 🔹 File Upload Response
+<p align="center">
+  <img src="./uploads/upload.png" width="700"/>
+</p>
+
+---
+
+### 🔹 Database (Prisma Studio)
+<p align="center">
+  <img src="./uploads/database.png" width="700"/>
+</p>
+
+---
+
+### 🔹 Cloudinary Storage
+<p align="center">
+  <img src="./uploads/Cloudinary.png" width="700"/>
+</p>
+
+---
+
+### 🔹 File Download
+<p align="center">
+  <img src="./uploads/download.png" width="700"/>
+</p>
 
 
 
