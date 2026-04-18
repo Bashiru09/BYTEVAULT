@@ -6,7 +6,7 @@ routes.use(express.json());
 
 
 
-routes.use("/auth/v1", authRoute);
+routes.use("/api/v1/auth", authRoute);
 routes.use("/file/v1", fileRoute);
 
 

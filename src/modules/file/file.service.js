@@ -16,7 +16,6 @@ class FileService {
   }
 
 
-  
   static async uploadToCloudinary(file) {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
@@ -30,7 +29,7 @@ class FileService {
       }
     );
 
-    stream.end(file.buffer); // 🔥 VERY IMPORTANT
+    stream.end(file.buffer); 
   });
 }
   // 🔥 UPDATED: Save metadata (no local storage)

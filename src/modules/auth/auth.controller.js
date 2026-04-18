@@ -1,35 +1,64 @@
 const Auth = require("../auth/auth.service");
 
 
-exports.register = async (req, res) =>
-{
-    console.log("running")
-     const { name, email, password } = req.body;
-     const data = { name, email, password };
-   
-     const register = await Auth.Register(data);
+exports.register = async (req, res) => {
+  try {
+    console.log("running");
 
-     if (register) {
-            return res.status(200).json(register);
-        } else {
-            return res.status(500).json({ error: "Registration failed" });
-         }
+    const { name, email, password } = req.body;
 
-}
+    const data = { name, email, password };
 
-exports.login = async (req, res) =>
-{
-    try {
-        console.log("taking input");
-        const {email, password} = req.body;
-        console.log(email, password);
-        const login = await Auth.login({email, password});
-        if(!login)
-        {
-           return res.status(404).json("user with email and password does not exist");
-        }
-        return res.status(200).status("Logged in");
-    } catch (error) {
-        return res.status(500).json("SERVER ERROR");
+    const result = await Auth.Register(data);
+
+    return res.status(201).json(result);
+  } catch (error) {
+    console.error("Register error:", error.message);
+
+    if (error.message === "User already exists") {
+      return res.status(409).json({
+        error: error.message,
+      });
     }
-}
+
+    return res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
+
+
+
+exports.login = async (req, res) => {
+  try {
+    console.log("taking input");
+
+    const { email, password } = req.body;
+    console.log(email, password);
+
+    const result = await Auth.Login({ email, password });
+
+    return res.status(200).json({
+      message: "Logged in successfully",
+      ...result,
+    });
+  } catch (error) {
+    console.error("Login error:", error.message);
+
+    if (error.message === "User not found") {
+      return res.status(404).json({
+        error: error.message,
+      });
+    }
+
+    if (error.message === "Invalid email or password") {
+      return res.status(401).json({
+        error: error.message,
+      });
+    }
+
+    return res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
