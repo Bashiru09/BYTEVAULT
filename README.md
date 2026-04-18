@@ -47,7 +47,7 @@ ByteVault is designed as a backend service that mimics core functionality of clo
 
 ### 🔹 Database (Prisma Studio)
 <p align="center">
-  <img src="./uploads/database.png" width="700"/>
+  <img src="./screenshots/database.png" width="700"/>
 </p>
 
 ---
@@ -145,7 +145,7 @@ Authorization: Bearer <access_token>
 ### 1. Clone the repository
 
 ```
-git clone https://github.com/your-username/bytevault-api.git
+git clone https://github.com/Bashiru09/bytevault-api.git
 cd bytevault-api
 ```
 
@@ -218,17 +218,6 @@ src/
 
 ---
 
-## 📸 Suggested Screenshots (for your GitHub)
-
-Add these to improve your repo:
-
-* Swagger API Docs (`/api-docs`)
-* Successful file upload response
-* Database (Prisma Studio showing stored files)
-* Cloudinary dashboard (uploaded files)
-* Download request working
-
----
 
 ## 🚀 Future Improvements
 
@@ -240,16 +229,7 @@ Add these to improve your repo:
 
 ---
 
-## 🎯 Purpose
 
-This project was built as a **portfolio project** to demonstrate:
-
-* Backend architecture design
-* Secure file handling
-* Cloud integration
-* API development best practices
-
----
 
 ## 📬 Contact
 
