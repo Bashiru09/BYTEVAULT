@@ -1,21 +1,49 @@
 const Auth = require("../auth/auth.service");
 
 
-exports.register = async (req, res) =>
-{
+exports.register = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
     
-     const { name, email, password } = req.body;
-     const data = { name, email, password };
-   
-     const register = await Auth.Register(data);
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        error: "Name, email, and password are required"
+      });
+    }
 
-     if (register) {
-            return res.status(200).json(register);
-        } else {
-            return res.status(500).json({ error: "Registration failed" });
-         }
+    
+    const user = await Auth.Register({ name, email, password });
 
-}
+    
+    if (!user) {
+      return res.status(500).json({
+        error: "Registration failed"
+      });
+    }
+
+    
+    return res.status(201).json({
+      message: "User registered successfully",
+      data: user
+    });
+
+  } catch (err) {
+    
+    console.error("REGISTER ERROR:", err);
+
+    
+    if (err.message.includes("duplicate")) {
+      return res.status(409).json({
+        error: "User already exists"
+      });
+    }
+    return res.status(500).json({
+      error: "Internal Server Error",
+      message: err.message
+    });
+  }
+};
 
 exports.login = async (req, res) =>
 {
