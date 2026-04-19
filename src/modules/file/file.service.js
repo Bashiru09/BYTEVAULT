@@ -63,7 +63,18 @@ class FileService {
     });
 
     return metadata;
-  }
+  };
+
+
+  static generateSignedUrl(publicId) {
+  return cloudinary.url(publicId, {
+    secure: true,
+    sign_url: true
+  });
+}
+
+
+
 
   
   static async authorizeAccess({ ownerId, fileId }) {

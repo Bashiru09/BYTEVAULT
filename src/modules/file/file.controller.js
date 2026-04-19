@@ -21,7 +21,9 @@ exports.download = async (req, res) => {
 
     const file = await FileService.authorizeAccess({ ownerId, fileId });
 
-    res.download(path.join(__dirname, '../../', file.path), file.original_name);
+    const signedUrl = FileService.generateSignedUrl(file.filename);
+    return res.redirect(signedUrl);
+
   } catch (err) {
     res.status(403).json({ error: err.message });
   }
